@@ -28,7 +28,7 @@ public class BookDAO {
         fw.close();
     }
 
-    // Read -- SELECT * FROM Books
+    // READ -- SELECT * FROM Books
 
     public List<Book> getAllBooks() throws Exception {
         File f = new File(this.ruta);
@@ -49,7 +49,7 @@ public class BookDAO {
         return libreria;
     }
 
-    // Read -- SELECT * FROM Books WHERE isbn = {isbn}
+    // READ -- SELECT * FROM Books WHERE isbn = {isbn}
     public Book getBookByIsbn(String isbn) throws Exception {
         List<Book> library = getAllBooks();
         boolean encontrado = false;
@@ -68,43 +68,85 @@ public class BookDAO {
         return null;
     }
 
-    // Updateee
+    // UPDATE
     public void updateBookByIsbn(String isbn) throws Exception {
         List<Book> library = getAllBooks();
         boolean encontrado = false;
         File f = new File(this.ruta);
         FileWriter fw = new FileWriter(f, false);
         BufferedWriter bw = new BufferedWriter(fw);
-        
+
         for (Book libro : library) {
             if (isbn.equalsIgnoreCase(libro.getIsbn().trim())) {
                 System.out.println("Cómo quieres llamar al libro con isbn: " + isbn);
                 String nuevoNombre = sc.nextLine();
-                // System.out.println("Escribe un nuevo isbn si quieres: ");
-                // String nuevoIsbn = sc.nextLine();
+                System.out.println("Escribe un nuevo isbn si quieres: ");
+                String nuevoIsbn = sc.nextLine();
 
-                Book book = new Book(isbn, nuevoNombre);
+                Book book = new Book(nuevoIsbn, nuevoNombre);
                 bw.write(book.getIsbn() + ";" + book.getName());
                 bw.newLine();
                 encontrado = true;
-            
+
             } else {
                 bw.write(libro.getIsbn() + ";" + libro.getName());
                 bw.newLine();
             }
-            if(!encontrado){
-                System.out.println("No contamos con un libro con isbn: "+isbn);
+            if (!encontrado) {
+                System.out.println("No contamos con un libro con isbn: " + isbn);
             }
         }
-        
         bw.close();
-        bw.close();
+        fw.close();     
     }
 
+    // DELETE
+    public void deteleBook(String isbn) throws Exception {
+        List<Book> library = getAllBooks();
+        boolean encontrado = false;
+        File f = new File(this.ruta);
+        FileWriter fw = new FileWriter(f, false);
+        BufferedWriter bw = new BufferedWriter(fw);
 
-    // Delete
-    public void deteleBook(String isbn) {
+        for (Book libro : library) {
+            if (isbn.equalsIgnoreCase(libro.getIsbn())) {
+                encontrado = true;
+            }
+        }
+
+        if (encontrado) {
+            for (Book libros : library) {
+                if (!isbn.equalsIgnoreCase(libros.getIsbn())) {
+                    bw.write(libros.getIsbn() + ";" + libros.getName());
+                    bw.newLine();
+                }
+            }
+        } else {
+            System.out.println("No contamos con un libro con isbn: " + isbn);
+        }
+        bw.close();
+        fw.close();
 
     }
+
+    public void deleteBookIA(String isbn) throws Exception {
+    List<Book> library = getAllBooks();
+    boolean encontrado = library.stream().anyMatch(b -> isbn.equalsIgnoreCase(b.getIsbn()));
+
+    if (!encontrado) {
+        System.out.println("No contamos con un libro con isbn: " + isbn);
+        return;
+    }
+
+    // try-with-resources asegura el flush() y el cierre en orden inverso
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.ruta, false))) {
+        for (Book libro : library) {
+            if (!isbn.equalsIgnoreCase(libro.getIsbn())) {
+                bw.write(libro.getIsbn() + ";" + libro.getName());
+                bw.newLine();
+            }
+        }
+    } // Aquí bw se vacía (flush) y se cierra automáticamente
+}
 
 }

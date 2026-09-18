@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,7 +55,15 @@ public class Main {
                     bookDao.updateBookByIsbn(eleccionUpdate);
                     break;
                 case 4:
-
+                    library = bookDao.getAllBooks();
+                    for (Book libro : library) {
+                        System.out.println(libro.getIsbn() + " Libro: " + libro.getName());
+                    }
+                    System.out.print("Qué libro quieres eliminar? Escribe su isbn: ");
+                    String eleccionDelete = sc.nextLine();
+                    eleccionDelete.toLowerCase().trim();
+  
+                    bookDao.deteleBook(eleccionDelete);
                     break;
                 case 0:
                     menu = false;

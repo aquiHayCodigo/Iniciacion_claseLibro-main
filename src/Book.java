@@ -27,6 +27,4 @@ public class Book implements Comparable<Book>{
         return this.name.compareTo(book.getName());
     }
 
-
-
 }
