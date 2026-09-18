@@ -91,13 +91,13 @@ public class BookDAO {
             } else {
                 bw.write(libro.getIsbn() + ";" + libro.getName());
                 bw.newLine();
-            }
-            if (!encontrado) {
-                System.out.println("No contamos con un libro con isbn: " + isbn);
-            }
+            } 
+        }
+        if (!encontrado) {
+            System.out.println("No contamos con un libro con isbn: " + isbn);
         }
         bw.close();
-        fw.close();     
+        fw.close();
     }
 
     // DELETE
@@ -128,6 +128,5 @@ public class BookDAO {
         fw.close();
 
     }
-
 
 }

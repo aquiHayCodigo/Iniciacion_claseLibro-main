@@ -1,0 +1,12 @@
+{
+    "Bucle foreach": {
+        "scope": "java",
+        "prefix": ["for", "fori", "foreach", "for-each"],
+        "body": [
+            "for (${1:Book} ${2:libro} : ${3:libros}) {",
+            "    $0",
+            "}"
+        ],
+        "description": "Crea un bucle for-each en Java"
+    }
+}

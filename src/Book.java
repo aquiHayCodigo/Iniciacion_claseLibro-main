@@ -27,4 +27,14 @@ public class Book implements Comparable<Book>{
         return this.name.compareTo(book.getName());
     }
 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
+
 }
