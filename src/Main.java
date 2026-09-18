@@ -9,6 +9,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         boolean menu = true;
         BookDAO bookDao = new BookDAO("Books.txt");
+        List<Book> library;
 
         while (menu) {
             System.out.println("1. Crear Libro");
@@ -32,30 +33,27 @@ public class Main {
                     break;
 
                 case 2:
-                    List<Book> library = bookDao.getAllBooks();
+                    library = bookDao.getAllBooks();
                     for (Book libro : library) {
                         System.out.println(libro.getIsbn() + " Libro: " + libro.getName());
                     }
                     System.out.print("Qué libro quieres leer? Escribe su isbn: ");
                     String eleccion = sc.nextLine();
-                    boolean encontrado=false;
-                    String libroLeer= " ";
-                    for (Book libro : library) {
-                        if (eleccion.equalsIgnoreCase(libro.getIsbn())) {
-                            libroLeer= libro.getName();
-                            encontrado=true;
-                        } 
-                    }
-                    if(!encontrado){
-                        System.out.println("\n Ese libro no lo tenemos");
-                    }else{
-                        System.out.println("\n Que disfrutes de: " + libroLeer);
-                    }
+
+                    bookDao.getBookByIsbn(eleccion);
 
                     break;
 
                 case 3:
-                    
+                    library = bookDao.getAllBooks();
+                    for (Book libro : library) {
+                        System.out.println(libro.getIsbn() + " Libro: " + libro.getName());
+                    }
+                    System.out.print("Qué libro quieres actualizar? Escribe su isbn: ");
+                    String eleccionUpdate = sc.nextLine();
+                    eleccionUpdate.toLowerCase().trim();
+
+                    bookDao.updateBookByIsbn(eleccionUpdate);
                     break;
                 case 4:
 
