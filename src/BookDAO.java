@@ -129,24 +129,5 @@ public class BookDAO {
 
     }
 
-    public void deleteBookIA(String isbn) throws Exception {
-    List<Book> library = getAllBooks();
-    boolean encontrado = library.stream().anyMatch(b -> isbn.equalsIgnoreCase(b.getIsbn()));
-
-    if (!encontrado) {
-        System.out.println("No contamos con un libro con isbn: " + isbn);
-        return;
-    }
-
-    // try-with-resources asegura el flush() y el cierre en orden inverso
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.ruta, false))) {
-        for (Book libro : library) {
-            if (!isbn.equalsIgnoreCase(libro.getIsbn())) {
-                bw.write(libro.getIsbn() + ";" + libro.getName());
-                bw.newLine();
-            }
-        }
-    } // Aquí bw se vacía (flush) y se cierra automáticamente
-}
 
 }
